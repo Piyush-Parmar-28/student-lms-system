@@ -4,7 +4,12 @@ import Navbar from "../components/navbar.tsx";
 import Footer from "../components/footer.tsx";
 const Home = () => {
   const [ACCess, setAccess] = useState("No");
-  const bg= require("../images/addStudent_HomePage.svg")
+  
+  const bg1 = "../assets/images/addStudent_HomePage.svg";
+  const bg2 = "../assets/images/deleteStudent.svg";
+  const bg3 = "../assets/images/findStudent.svg";
+  const bg4 = "../assets/images/updateStudent.svg";
+  const bg = `url(${bg1})`;
 
   return (
     <div>
@@ -13,9 +18,9 @@ const Home = () => {
       <div className="page landing-page">
         <section
           className="clean-block clean-hero"
-          
+
           style={{
-            backgroundImage: `url(${'../assets/img/tech/image4.jpg'})`,
+            backgroundImage: bg,
             color: "rgba(9, 162, 255, 0.85)",
           }}
         >
@@ -87,11 +92,12 @@ const Home = () => {
                 <div className="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
                   <div className="d-flex features-icons-icon">
                     <img
-
-                      src={bg}
+                      src= {bg1}
+                      style={{
+                        height: "120px",
+                      }}
                       className="mx-auto my-lg-2 my-0"
                       alt="My Happy SVG"
-                      style={{ height: "120px" }}
                     />
                   </div>
                   {/* <!-- Modal Trigger Button --> */}
@@ -116,10 +122,12 @@ const Home = () => {
                 <div className="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
                   <div className="d-flex features-icons-icon">
                     <img
-                      src="../images/findStudent.svg"
+                      src={bg3}
+                      style={{
+                        height: "120px",
+                      }}
                       className="mx-auto my-lg-2 my-0"
                       alt="My Happy SVG"
-                      style={{ height: "120px" }}
                     />
                   </div>
                   {/* <!-- Modal Trigger Button --> */}
@@ -145,10 +153,12 @@ const Home = () => {
                 <div className="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
                   <div className="d-flex features-icons-icon">
                     <img
-                      src="../images/updateStudent.svg"
+                      src={bg4}
+                      style={{
+                        height: "120px",
+                      }}
                       className="mx-auto my-lg-2 my-0"
                       alt="My Happy SVG"
-                      style={{ height: "120px" }}
                     />
                   </div>
                   {/* <!-- Modal Trigger Button --> */}
@@ -173,10 +183,12 @@ const Home = () => {
                 <div className="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
                   <div className="d-flex features-icons-icon">
                     <img
-                      src="../images/deleteStudent.svg"
+                      src={bg2}
+                      style={{
+                        height: "120px",
+                      }}
                       className="mx-auto my-lg-2 my-0"
                       alt="My Happy SVG"
-                      style={{ height: "120px" }}
                     />
                   </div>
                   {/* <!-- Modal Trigger Button --> */}
@@ -207,8 +219,8 @@ const Home = () => {
             <div className="block-heading">
               <h2 className="text-info">Features</h2>
               <p>
-                Check out the amazing features of this Student Database Management
-                System
+                Check out the amazing features of this Student Database
+                Management System
               </p>
             </div>
             <div className="row justify-content-center">
@@ -231,14 +243,15 @@ const Home = () => {
                 <i className="icon-trash icon"></i>
                 <h4>Delete</h4>
                 <p>
-                  Easily delete any Student Information available in the Database!
+                  Easily delete any Student Information available in the
+                  Database!
                 </p>
               </div>
             </div>
           </div>
         </section>
       </div>
-          
+
       <Footer />
     </div>
   );
