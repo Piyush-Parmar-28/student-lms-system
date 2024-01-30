@@ -1,8 +1,45 @@
-import React from "react";
+import React, { Fragment } from "react";
+import { useState } from "react";
 import Navbar from "../components/navbar.tsx";
 import Footer from "../components/footer.tsx";
+import Alert from "../components/alert.tsx";
 
 const Signup = () => {
+  const [signUpInfo, setSignUpInfo] = useState({
+    name: "",
+    email: "",
+    pass: "",
+    phone: 0
+  });
+
+  const [status, setStatus] = useState(0);
+
+  const handleInput = (event: any) => {
+    setSignUpInfo({ ...signUpInfo, [event.target.name]: event.target.value });
+  };
+
+  const postData = async (event: any) => {
+    event.preventDefault();
+
+    const { name, email, pass, phone } = signUpInfo;
+
+    const res = await fetch("/signup", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        pass,
+        phone
+      }),
+    });
+
+    const data = await res.json();
+    setStatus(data.status);
+  };
+
   return (
     <div>
       <Navbar />
@@ -11,12 +48,20 @@ const Signup = () => {
         <section className="clean-block clean-form dark">
           <div className="container">
             <div className="block-heading">
+
+            {status == 200 ? (
+                <Alert color="success" msg="Record Inserted Successfully!" />
+              ) : status == 400 ? (
+                <Alert color="danger" msg="Record could not be inserted. Try Again!" />
+              ) : (
+                <Fragment></Fragment>
+              )}
+
               <h2 className="text-info">Sign Up</h2>
               <p>Sign Up to proceed...</p>
             </div>
 
-            {/* <!-- In forms, name filed is very Important, because it is used in 'req.body.' while connecting to database --> */}
-            <form action="/signUp" method="post">
+            <form>
               <div className="mb-3">
                 <label className="form-label" htmlFor="name">
                   <b>Name</b>
@@ -24,8 +69,9 @@ const Signup = () => {
                 <input
                   className="form-control item"
                   type="text"
-                  id="name"
-                  name="Name"
+                  name="name"
+                  value={signUpInfo.name}
+                  onChange={handleInput}
                 />
               </div>
 
@@ -36,8 +82,9 @@ const Signup = () => {
                 <input
                   className="form-control item"
                   type="email"
-                  id="email"
-                  name="Email"
+                  name="email"
+                  value={signUpInfo.email}
+                  onChange={handleInput}
                 />
               </div>
 
@@ -48,8 +95,9 @@ const Signup = () => {
                 <input
                   className="form-control item"
                   type="password"
-                  id="password"
-                  name="Password"
+                  name="pass"
+                  value={signUpInfo.pass}
+                  onChange={handleInput}
                 />
               </div>
 
@@ -60,12 +108,13 @@ const Signup = () => {
                 <input
                   className="form-control item"
                   type="tel"
-                  id="phone"
-                  name="Phone"
+                  name="phone"
+                  value={signUpInfo.phone}
+                  onChange={handleInput}
                 />
               </div>
 
-              <button className="btn btn-primary" type="submit">
+              <button className="btn btn-primary" type="submit" onClick={postData}>
                 Sign Up
               </button>
             </form>

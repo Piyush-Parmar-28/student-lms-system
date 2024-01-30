@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { Fragment, useState } from "react";
 import Navbar from "../components/navbar.tsx";
 import Footer from "../components/footer.tsx";
+import Alert from "../components/alert.tsx";
 
 const Login = () => {
   const [loginInfo, setLoginInfo] = useState({
@@ -9,7 +9,7 @@ const Login = () => {
     pass: "",
   });
 
-  const [LOgin, setLogin] = useState("");
+  const [status, setStatus] = useState(0);
 
   const handleInput = (event: any) => {
     setLoginInfo({ ...loginInfo, [event.target.name]: event.target.value });
@@ -36,37 +36,32 @@ const Login = () => {
     });
 
     const data = await res.json();
-    console.log("data: ", data);
+    setStatus(data.status);
   };
 
   return (
     <div>
       <Navbar />
-
+      
       <main className="page login-page">
         <section className="clean-block clean-form dark">
           <div className="container">
             <div className="block-heading">
-              {LOgin == "Invalid" ? (
-                <div className="alert alert-danger" role="alert">
-                  <p>Invalid Credentials!</p>
-                </div>
-              ) : (
-                <></>
-              )}
 
-              {/* <% if(LOgin == "Invalid"){ %>
-                          <div className="alert alert-danger" role="alert">
-                              Invalid Credentials!
-                          </div>
-                      <% } %>     */}
+              {status == 200 ? (
+                <Alert color="success" msg="User Authenticated Successfully!" />
+              ) : status == 404 ? (
+                <Alert color="danger" msg="Invalid Credentials. Try Again!" />
+              ) : (
+                <Fragment></Fragment>
+              )}
 
               <h2 className="text-info">Log In</h2>
               <p>Log In to continue...</p>
             </div>
 
             {/* In forms, name field is very Important, because it is used in 'req.body.' while connection to database */}
-            <form action="/login" method="post">
+            <form>
               <div className="mb-3">
                 <label className="form-label" htmlFor="email">
                   <b>Email</b>
