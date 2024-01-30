@@ -2,9 +2,13 @@ import React, { useState } from "react";
 
 import Navbar from "../components/navbar.tsx";
 import Footer from "../components/footer.tsx";
+import MenuCard from "../components/menuCard.tsx";
+import Heading from "../components/heading.tsx";
+import FeatureCard from "../components/featureCard.tsx";
+
 const Home = () => {
   const [ACCess, setAccess] = useState("No");
-  
+
   const bg1 = "../assets/images/addStudent_HomePage.svg";
   const bg2 = "../assets/images/deleteStudent.svg";
   const bg3 = "../assets/images/findStudent.svg";
@@ -18,7 +22,6 @@ const Home = () => {
       <div className="page landing-page">
         <section
           className="clean-block clean-hero"
-
           style={{
             backgroundImage: bg,
             color: "rgba(9, 162, 255, 0.85)",
@@ -82,133 +85,19 @@ const Home = () => {
         {/* <!-- Menu Block --> */}
         <section className="clean-block bg-light features">
           <div className="container">
-            <div className="block-heading">
-              <h2 className="text-info">Menu</h2>
-              <p>Find various options to perform here!</p>
-            </div>
+            <Heading
+              heading="Menu"
+              desc="Find various options to perform here!"
+            />
 
             <div className="row text-center">
-              <div className="col-lg-3 col-sm-6 col-12 p-4">
-                <div className="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
-                  <div className="d-flex features-icons-icon">
-                    <img
-                      src= {bg1}
-                      style={{
-                        height: "120px",
-                      }}
-                      className="mx-auto my-lg-2 my-0"
-                      alt="My Happy SVG"
-                    />
-                  </div>
-                  {/* <!-- Modal Trigger Button --> */}
-                  (ACCess == "No") ?
-                  <button
-                    type="button"
-                    className="btn btn-primary mt-1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                  >
-                    Add Student
-                  </button>
-                  :
-                  <a href="/addStudent">
-                    <button type="button" className="btn btn-primary mt-1">
-                      Add Student
-                    </button>
-                  </a>
-                </div>
-              </div>
-              <div className="col-lg-3 col-sm-6 col-12 p-4">
-                <div className="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
-                  <div className="d-flex features-icons-icon">
-                    <img
-                      src={bg3}
-                      style={{
-                        height: "120px",
-                      }}
-                      className="mx-auto my-lg-2 my-0"
-                      alt="My Happy SVG"
-                    />
-                  </div>
-                  {/* <!-- Modal Trigger Button --> */}
-                  (ACCess == "No") ?
-                  <button
-                    type="button"
-                    className="btn btn-primary mt-1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                  >
-                    Find Student
-                  </button>
-                  :
-                  <a href="/findStudent">
-                    <button type="button" className="btn btn-primary mt-1">
-                      Find Student
-                    </button>
-                  </a>
-                </div>
-              </div>
+              <MenuCard access="No" imgLink={bg1} btnName="Add Student" />
 
-              <div className="col-lg-3 col-sm-6 col-12 p-4">
-                <div className="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
-                  <div className="d-flex features-icons-icon">
-                    <img
-                      src={bg4}
-                      style={{
-                        height: "120px",
-                      }}
-                      className="mx-auto my-lg-2 my-0"
-                      alt="My Happy SVG"
-                    />
-                  </div>
-                  {/* <!-- Modal Trigger Button --> */}
-                  (ACCess == "No") ?
-                  <button
-                    type="button"
-                    className="btn btn-primary mt-1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                  >
-                    Students List
-                  </button>
-                  :
-                  <a href="/studentList">
-                    <button type="button" className="btn btn-primary mt-1">
-                      Students List
-                    </button>
-                  </a>
-                </div>
-              </div>
-              <div className="col-lg-3 col-sm-6 col-12 p-4">
-                <div className="mx-auto features-icons-item mb-5 mb-lg-0 mb-lg-3">
-                  <div className="d-flex features-icons-icon">
-                    <img
-                      src={bg2}
-                      style={{
-                        height: "120px",
-                      }}
-                      className="mx-auto my-lg-2 my-0"
-                      alt="My Happy SVG"
-                    />
-                  </div>
-                  {/* <!-- Modal Trigger Button --> */}
-                  (ACCess == "No") ?
-                  <button
-                    type="button"
-                    className="btn btn-primary mt-1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                  >
-                    Delete Student
-                  </button>
-                  :
-                  <a href="/deleteStudent">
-                    <button type="button" className="btn btn-primary mt-1">
-                      Delete Student
-                    </button>
-                  </a>
-                </div>
-              </div>
+              <MenuCard access="No" imgLink={bg3} btnName="Find Student" />
+
+              <MenuCard access="No" imgLink={bg4} btnName="Students List" />
+
+              <MenuCard access="No" imgLink={bg2} btnName="Delete Student" />
             </div>
           </div>
         </section>
@@ -216,37 +105,32 @@ const Home = () => {
         {/* <!-- features Block --> */}
         <section className="clean-block features" id="features">
           <div className="container">
-            <div className="block-heading">
-              <h2 className="text-info">Features</h2>
-              <p>
-                Check out the amazing features of this Student Database
-                Management System
-              </p>
-            </div>
+            <Heading
+              heading="Features"
+              desc="Check out the amazing features of this Student Database Management System"
+            />
+
             <div className="row justify-content-center">
-              <div className="col-md-5 feature-box">
-                <i className="icon-plus icon"></i>
-                <h4>Add</h4>
-                <p>Add a Student with extreme ease!</p>
-              </div>
-              <div className="col-md-5 feature-box">
-                <i className="icon-refresh icon"></i>
-                <h4>Update</h4>
-                <p>Update details of any Student with just a few clicks!</p>
-              </div>
-              <div className="col-md-5 feature-box">
-                <i className="icon-magnifier icon"></i>
-                <h4>Find</h4>
-                <p>Find any Student Information entered in the Database!</p>
-              </div>
-              <div className="col-md-5 feature-box">
-                <i className="icon-trash icon"></i>
-                <h4>Delete</h4>
-                <p>
-                  Easily delete any Student Information available in the
-                  Database!
-                </p>
-              </div>
+              <FeatureCard
+                heading="Add"
+                desc="Add a Student with extreme ease!"
+              />
+
+              <FeatureCard
+                heading="Update"
+                desc="Update details of any Student with just a few clicks!"
+              />
+
+              <FeatureCard
+                heading="Find"
+                desc="Find any Student Information entered in the Database!"
+              />
+
+              <FeatureCard
+                heading="Delete"
+                desc="Easily delete any Student Information available in the Database!"
+              />
+              
             </div>
           </div>
         </section>

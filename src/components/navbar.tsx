@@ -1,13 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 // React Components must start from uppercase
 function Navbar() {
   return (
     <nav className="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
       <div className="container">
-        <a className="navbar-brand logo" href="#">
-          sManager
-        </a>
+        <Link to="/">
+          <div className="navbar-brand logo">sManager</div>
+        </Link>
+
         <button
           data-bs-toggle="collapse"
           className="navbar-toggler"
@@ -19,24 +21,27 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navcol-1">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <a className="nav-link" href="/">
-                Home
-              </a>
+              <Link to="/">
+                <div className="nav-link">Home</div>
+              </Link>
             </li>
+            
             <li className="nav-item">
-              <a className="nav-link" href="/login">
-                Login
-              </a>
+              <Link to= "/login">
+                <div className="nav-link">Login</div>
+              </Link>
             </li>
+
             <li className="nav-item">
-              <a className="nav-link" href="/signUp">
-                Sign Up
-              </a>
+              <Link to= "/signUp">
+                <div className="nav-link">Sign Up</div>
+              </Link>
             </li>
+            
             <li className="nav-item">
-              <a className="nav-link" href="/contactUs">
-                Contact Us
-              </a>
+              <Link to= "/contactUs">
+                <div className="nav-link">Contact Us</div>
+              </Link>
             </li>
           </ul>
         </div>

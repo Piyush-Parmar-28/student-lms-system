@@ -36,11 +36,6 @@ app.set("views", path.join(__dirname, "views"))
 // Inorder to use ejs, our file should be stored in the 'views' folder only.
 const ejs= require('ejs')
 
-// Setting the view engine to ejs
-app.set('view engine', 'ejs')
-
-
-
 
 
 
@@ -152,8 +147,8 @@ app.post('/signUp', function(req, res){
 })
 
 app.post('/login', async function(req, res){
-    var email_check= req.body.Email;
-    var pass_check= req.body.Password;
+    var email_check= req.body.email;
+    var pass_check= req.body.pass;
 
     console.log("email is:"+ email_check)
     console.log("password is: "+ pass_check)
