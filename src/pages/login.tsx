@@ -4,27 +4,40 @@ import Navbar from "../components/navbar.tsx";
 import Footer from "../components/footer.tsx";
 
 const Login = () => {
-  const[loginInfo, setLoginInfo] = useState({
+  const [loginInfo, setLoginInfo] = useState({
     email: "",
-    pass: ""
-  })
+    pass: "",
+  });
 
   const [LOgin, setLogin] = useState("");
 
-  const handleInput= (event : any) =>{
-    setLoginInfo({...loginInfo, [event.target.name] : event.target.value})
-  }
+  const handleInput = (event: any) => {
+    setLoginInfo({ ...loginInfo, [event.target.name]: event.target.value });
+  };
 
-  const postData= async (event : any) => {
+  const postData = async (event: any) => {
     event.preventDefault();
 
-    console.log('========Here=====');
+    //  Using object destructuring for: const email= loginInfo.email
+    const { email, pass } = loginInfo;
 
-    var res= await axios.post('/login', loginInfo);
-    
-    console.log(res);
-    console.log('====================================');
-  }
+    const res = await fetch("/login", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // Since our backend will not understand JSON data & hence we must convert to string
+      //  This string will be sent as 'body' to server
+      body: JSON.stringify({
+        //  Using object destructuring for: email: email, pass: pass
+        email,
+        pass,
+      }),
+    });
+
+    const data = await res.json();
+    console.log("data: ", data);
+  };
 
   return (
     <div>
@@ -82,7 +95,11 @@ const Login = () => {
                 />
               </div>
 
-              <button className="btn btn-primary" type="submit" onClick={postData}>
+              <button
+                className="btn btn-primary"
+                type="submit"
+                onClick={postData}
+              >
                 Log In
               </button>
             </form>

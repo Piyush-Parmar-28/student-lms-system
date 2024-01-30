@@ -16,7 +16,7 @@ const signupSucc = () => {
               <img
                 src="images/welcome.svg"
                 className="mx-auto pb-2"
-                style={{ height: "300px;" }}
+                style={{ height: "300px" }}
               />
             </div>
 

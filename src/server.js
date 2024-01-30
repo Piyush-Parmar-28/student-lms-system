@@ -3,7 +3,7 @@ const mongoose= require('mongoose')
 const bodyParser= require("body-parser")
 const path= require('path')
 const port= process.env.PORT || 8000
-
+var cors = require("cors")
 
 
 /* Connecting to Database (MongoDB Atlas) */
@@ -22,6 +22,13 @@ db.once('open', function(callback){
 
 
 var app= express()
+
+app.use(cors({
+    origin:"*"
+}))
+
+app.use(bodyParser.json());
+
 app.use(express.static(__dirname + '/public'))
 
 app.set("views", path.join(__dirname, "views"))
@@ -49,11 +56,11 @@ allowAccess= "No";
 
 
 /* get Methods */
-app.get('/login', function(req, res){
-    res.render('login.ejs', {
-        LOgin: "No"
-    })
-})
+// app.get('/login', function(req, res){
+//     res.render('login.ejs', {
+//         LOgin: "No"
+//     })
+// })
 
 app.get('/signUp', function(req, res){
     res.sendFile(path.join(__dirname, ('public/signUp.html')))
@@ -147,34 +154,18 @@ app.post('/signUp', function(req, res){
 })
 
 app.post('/login', async function(req, res){
-    var email_check= req.body.email;
-    var pass_check= req.body.pass;
+    var email= req.body.email;
+    var pass= req.body.pass;
 
-    console.log("email is:"+ email_check)
-    console.log("password is: "+ pass_check)
-
-    db.collection('Users').findOne({"email":email_check, "password": pass_check} ,function(err, result){
+    db.collection('Users').findOne({"email":email, "password": pass} ,function(err, result){
         if(err){
-            console.log("The login error is: ");
             throw err;
         }
-
         else{
-            console.log("Printing the result: ");
             console.log(result)
         }
 
-        if(result == null){
-            
-            res.render('login.ejs', {
-                LOgin: "Invalid",
-            })
-        }
-
-        else{
-            allowAccess= "Yes";
-            res.sendFile(path.join(__dirname, ('public/loginSuccess.html')))
-        }
+        return result == null ? res.send({message: "Invalid Credentials!"}) : res.send({message: "ok"});
     })
 })
 
@@ -402,9 +393,9 @@ app.post('/addNewDetails', function(req, res){
 
 /* get method */
 app.get('/', function(req, res){
-    res.render('index.ejs', {
-        ACCess: allowAccess
-    })
+    // res.render('index.ejs', {
+    //     ACCess: allowAccess
+    // })
 })
 
 

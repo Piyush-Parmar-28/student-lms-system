@@ -14,7 +14,7 @@ const LoginSucc= () => {
                     </div>
 
                     <div className="text-center mb-2 mt-2">
-                        <img src="images/welcome.svg" className="mx-auto" style={{height: "300px;"}} />
+                        <img src="images/welcome.svg" className="mx-auto" style={{height: "300px"}} />
                     </div>
                     
                     <a href="/">
