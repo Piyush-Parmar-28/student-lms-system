@@ -1,20 +1,21 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import Navbar from "../components/navbar.tsx";
 import Footer from "../components/footer.tsx";
 import MenuCard from "../components/menuCard.tsx";
 import Heading from "../components/heading.tsx";
 import FeatureCard from "../components/featureCard.tsx";
-import { Link } from "react-router-dom";
+import Modal from "../components/modal.tsx";
 
 const Home = () => {
-  const [ACCess, setAccess] = useState("No");
+  const [access, setAccess] = useState("Yes");
 
-  const bg1 = "../assets/images/addStudent_HomePage.svg";
-  const bg2 = "../assets/images/deleteStudent.svg";
-  const bg3 = "../assets/images/findStudent.svg";
-  const bg4 = "../assets/images/updateStudent.svg";
-  const bg = `url(${bg1})`;
+  const img1 = "../assets/images/addStudent_HomePage.svg";
+  const img2 = "../assets/images/deleteStudent.svg";
+  const img3 = "../assets/images/findStudent.svg";
+  const img4 = "../assets/images/updateStudent.svg";
+  const bg = `url(${img1})`;
 
   return (
     <div>
@@ -39,49 +40,7 @@ const Home = () => {
           </div>
         </section>
 
-        {/* <!-- Modal --> */}
-        <div
-          className="modal fade "
-          id="exampleModal"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  <b>Oops!</b>
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-
-              <div className="modal-body">Login or SignUp to continue!</div>
-
-              <div className="modal-footer d-flex justify-content-between">
-                <Link to="/login">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    data-bs-dismiss="modal"
-                  >
-                    Login
-                  </button>
-                </Link>
-
-                <Link to="/signUp">
-                  <button type="button" className="btn btn-primary">
-                    SignUp
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Modal />
 
         {/* <!-- Menu Block --> */}
         <section className="clean-block bg-light features">
@@ -92,13 +51,13 @@ const Home = () => {
             />
 
             <div className="row text-center">
-              <MenuCard access="No" imgLink={bg1} btnName="Add Student" />
+              <MenuCard access="Yes" btnLink= "/add" imgLink={img1} btnName="Add Student" />
 
-              <MenuCard access="No" imgLink={bg3} btnName="Find Student" />
+              <MenuCard access="Yes" btnLink= "/find" imgLink={img3} btnName="Find Student" />
 
-              <MenuCard access="No" imgLink={bg4} btnName="Students List" />
+              <MenuCard access="Yes" btnLink= "/list" imgLink={img4} btnName="Students List" />
 
-              <MenuCard access="No" imgLink={bg2} btnName="Delete Student" />
+              <MenuCard access="Yes" btnLink= "/delete" imgLink={img2} btnName="Delete Student" />
             </div>
           </div>
         </section>
@@ -131,7 +90,6 @@ const Home = () => {
                 heading="Delete"
                 desc="Easily delete any Student Information available in the Database!"
               />
-              
             </div>
           </div>
         </section>

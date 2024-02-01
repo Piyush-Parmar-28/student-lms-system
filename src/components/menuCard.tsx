@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from 'react-router-dom'
 
 const menuCard = (props : any) => {
   return (
@@ -27,11 +28,11 @@ const menuCard = (props : any) => {
             {props.btnName}
           </button>
           :
-          <a href="/findStudent">
+          <Link to={props.btnLink}>
             <button type="button" className="btn btn-primary mt-1">
               {props.btnName}
             </button>
-          </a>
+          </Link>
         }
 
       </div>

@@ -8,6 +8,7 @@ var cors = require("cors");
 
 //  Using Mongoose Models
 const userColl = require("./Schema/userSchema");
+const stuColl = require("./Schema/studentSchema");
 
 //  Creating Server
 var app = express();
@@ -45,25 +46,48 @@ app.post("/login", async function (req, res) {
 });
 
 app.post("/signup", function (req, res) {
-  var userName = req.body.name;
-  var userEmail = req.body.email;
-  var userPass = req.body.pass;
-  var userPhone = req.body.phone;
-
   var data = new userColl({
-    name: userName,
-    email: userEmail,
-    pass: userPass,
-    phone: userPhone,
+    name: req.body.name,
+    email: req.body.email,
+    pass: req.body.pass,
+    phone: req.body.phone,
   });
 
+  //  OLD CODE (without mongoose)
+  // db.collection("users").insertOne(data, function (err, collection) {
+  //   if (err) {
+  //     throw err;
+  //   } else {
+  //     res.send({ status: 200, message: "Record Inserted Successfully!" });
+  //   }
+  // });
+
+  //  NEW CODE (using mongoose)
   data
     .save()
     .then(() => {
       res.send({ status: 200, message: "Record Inserted Successfully!" });
     })
     .catch((e) => {
-      console.log(e);
+      res.send(e);
+    });
+});
+
+app.post("/add", async (req, res) => {
+  var data = new stuColl({
+    name: req.body.name,
+    fname: req.body.fname,
+    city: req.body.city,
+    phone: req.body.phone,
+    gender: req.body.gender,
+  });
+
+  data
+    .save()
+    .then(() => {
+      res.send({ status: 200, message: "Student Inserted Successfully!" });
+    })
+    .catch((e) => {
       res.send(e);
     });
 });
@@ -143,17 +167,17 @@ app.post("/signup", function (req, res) {
 //     city: city,
 //   };
 
-//   db.collection("Students").insertOne(data, function (err, collection) {
-//     if (err) {
-//       throw err;
-//     } else {
-//       console.log("Student Added Successfully!");
+// db.collection("Students").insertOne(data, function (err, collection) {
+//   if (err) {
+//     throw err;
+//   } else {
+//     console.log("Student Added Successfully!");
 
-//       return res.render("addStudent.ejs", {
-//         ADDed: "Yes",
-//       });
-//     }
-//   });
+//     return res.render("addStudent.ejs", {
+//       ADDed: "Yes",
+//     });
+//   }
+// });
 // });
 
 // OLDNAME = "";
