@@ -5,6 +5,7 @@ import Footer from "../components/footer.tsx";
 import MenuCard from "../components/menuCard.tsx";
 import Heading from "../components/heading.tsx";
 import FeatureCard from "../components/featureCard.tsx";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [ACCess, setAccess] = useState("No");
@@ -62,7 +63,7 @@ const Home = () => {
               <div className="modal-body">Login or SignUp to continue!</div>
 
               <div className="modal-footer d-flex justify-content-between">
-                <a href="/login">
+                <Link to="/login">
                   <button
                     type="button"
                     className="btn btn-primary"
@@ -70,13 +71,13 @@ const Home = () => {
                   >
                     Login
                   </button>
-                </a>
+                </Link>
 
-                <a href="/signUp">
+                <Link to="/signUp">
                   <button type="button" className="btn btn-primary">
                     SignUp
                   </button>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

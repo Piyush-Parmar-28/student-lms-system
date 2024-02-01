@@ -1,8 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/navbar.tsx";
 import Footer from "../components/footer.tsx";
 
 const Contact = () => {
+  const [contactInfo, setContactInfo] = useState({
+    name: "",
+    sub: "",
+    email: "",
+    msg: "",
+  });
+
+  const [status, setStatus] = useState(0);
+
+  const handleInput = (event: any) => {
+    setContactInfo({ ...contactInfo, [event.target.name]: event.target.value });
+  };
+
+  const sendData = async (event: any) => {
+    event.preventDefault();
+
+    const { name, sub, email, msg } = contactInfo;
+
+    const res = await fetch(
+      "https://formsubmit.co/235c884b3f021fafe2a38013d9c14838",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          name,
+          sub,
+          email,
+          msg,
+        }),
+      }
+    );
+
+    const data = await res.json();
+    setStatus(data.status);
+  };
+
   return (
     <div>
       <Navbar />
@@ -16,17 +55,7 @@ const Contact = () => {
             </div>
 
             {/* <!-- Hiding my email adderss with: 235......838 --> */}
-            <form
-              action="https://formsubmit.co/235c884b3f021fafe2a38013d9c14838"
-              method="POST"
-            >
-              {/* <!-- Redirecting the form to another page after submisssion --> */}
-              <input
-                type="hidden"
-                name="_next"
-                value="https://piyush-smanager.herokuapp.com/mailSent"
-              />
-
+            <form>
               {/* <!-- Disabling the captcha --> */}
               <input type="hidden" name="_captcha" value="false" />
 
@@ -39,6 +68,7 @@ const Contact = () => {
                   type="text"
                   id="name"
                   name="name"
+                  onChange={handleInput}
                   required
                 />
               </div>
@@ -51,7 +81,8 @@ const Contact = () => {
                   className="form-control"
                   type="text"
                   id="subject"
-                  name="subject"
+                  name="sub"
+                  onChange={handleInput}
                   required
                 />
               </div>
@@ -65,6 +96,7 @@ const Contact = () => {
                   type="email"
                   id="email"
                   name="email"
+                  onChange={handleInput}
                   required
                 />
               </div>
@@ -76,13 +108,18 @@ const Contact = () => {
                 <textarea
                   className="form-control"
                   id="message"
-                  name="message"
+                  name="msg"
+                  onChange={handleInput}
                   required
                 ></textarea>
               </div>
 
               <div className="mb-3">
-                <button className="btn btn-primary" type="submit">
+                <button
+                  className="btn btn-primary"
+                  type="submit"
+                  onClick={sendData}
+                >
                   Send
                 </button>
               </div>
