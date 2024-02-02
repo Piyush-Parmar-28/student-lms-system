@@ -9,6 +9,7 @@ import ContactUS from "./pages/contactUs.tsx";
 import FindStudent from "./pages/findStudent.tsx"
 import AddStudent from "./pages/addStudent.tsx";
 import StuList from "./pages/studentList.tsx";
+import DeleteStu from "./pages/deleteStudent.tsx";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/find" element={<FindStudent />} />
         <Route path="/add" element={<AddStudent />} />
         <Route path="/list" element={<StuList />} />
+        <Route path="/delete" element={<DeleteStu />} />
       </Routes>
     </BrowserRouter>
   );

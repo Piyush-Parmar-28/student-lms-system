@@ -98,14 +98,6 @@ const List = () => {
                                   )
                                 } )
                               }
-                              {/* <tr>
-                                <td><img className="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/avatar4.jpeg"></td>
-                                <td>Software Engineer</td>
-                                <td>London</td>
-                                <td>41</td>
-                                <td>2012/10/13<br></td>
-                                <td>$132,000</td>
-                            </tr> */}
                             </tbody>
 
                             <tfoot>

@@ -1,55 +1,110 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
+import Alert from "../components/alert.tsx";
 
-const deleteStu= () => {
-    const[DEleted, setDeleted]= useState("No");
+const DeleteStu = () => {
+  const img1 = "../assets/images/addStudent.svg";
+  const [stuInfo, setStuInfo] = useState({
+    name: "",
+    fname: ""
+  });
+  const [status, setStatus] = useState(0);
 
-    return (
-        <main className="page login-page">
-        <section className="clean-block clean-form dark">
-            <div className="container">
-                <div className="block-heading">
+  const handleInput = (event: any) => {
+    setStuInfo({ ...stuInfo, [event.target.name]: event.target.value });
+  };
 
-                    (DEleted == "Yes") ? 
-                        <div className="alert alert-success" role="alert">
-                            Student Deleted Successfully!
-                        </div>
-                    :
-                    (DEleted == "No Data") ?
+  const postData = async (event: any) => {
+    event.preventDefault();
 
-                        <div className="alert alert-danger" role="alert">
-                            No Such Student Exists!
-                        </div>
-                    :
-                    <div>
-                        <h2 className="text-info">Delete Student</h2>
-                        <img src="images/addStudent.svg" style={{height: "220px"}} />
-                    </div>
-                    
-                </div>
+    //  Using object destructuring for: const email= loginInfo.email
+    const { name, fname } = stuInfo;
 
-                {/* <!-- In forms, name field is very Important, because it is used in 'req.body.' while connection to database --> */}
-                <form action="/deleteSTUDENT" method="post">
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="email"><b>Name</b></label>
-                        <input className="form-control item" type="text" id="name" name="Name" required />
-                    </div>
+    const res = await fetch("/del", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        fname,
+      }),
+    });
 
-                    <div className="mb-3">
-                        <label className="form-label" htmlFor="email"><b>Father's Name</b></label>
-                        <input className="form-control item" type="text" id="fname" name="Fname" required />
-                    </div>
+    const data = await res.json();
+    console.log("data: ", data);
+    
+    setStatus(data.status);
+  };
 
-                    <button className="btn btn-danger" type="submit">Delete Student</button>
-                </form>
+  return (
+    <main className="page login-page">
+      <section className="clean-block clean-form dark">
+        <div className="container">
+          <div className="block-heading">
 
-                {/* <!-- ERROR HRE -->
-                <!-- This will delete the student, whose exact names have been typed... -->
-                <!-- If Captital & Small letters are not written in exact order, then it won't delete the student!!!! --> */}
-
+            {
+              status == 200 ? (
+                <Alert
+                  color= "success"
+                  msg= "Student Deleted Successfully!"
+                />
+              )
+              :
+              status == 404 ? (
+                <Alert
+                  color= "danger"
+                  msg= "No Such Student Exists!"
+                />
+              )
+              :
+              <Fragment />
+            }
+            <div>
+              <h2 className="text-info">Delete Student</h2>
+              <img src={img1} style={{ height: "220px" }} />
             </div>
-        </section>
-    </main>
-    )
-}
+          </div>
 
-export default deleteStu;
+          {/* <!-- In forms, name field is very Important, because it is used in 'req.body.' while connection to database --> */}
+          <form>
+            <div className="mb-3">
+              <label className="form-label" htmlFor="email">
+                <b>Name</b>
+              </label>
+              <input
+                className="form-control item"
+                type="text"
+                id="name"
+                name="name"
+                value={stuInfo.name}
+                onChange={handleInput}
+                required
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label" htmlFor="email">
+                <b>Father's Name</b>
+              </label>
+              <input
+                className="form-control item"
+                type="text"
+                id="fname"
+                name="fname"
+                value={stuInfo.fname}
+                onChange={handleInput}
+                required
+              />
+            </div>
+
+            <button className="btn btn-danger" type="submit" onClick={postData}>
+              Delete Student
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+  );
+};
+
+export default DeleteStu;

@@ -97,8 +97,6 @@ app.post("/find", async function (req, res) {
 
   const stuData = await stuColl.findOne({ name });
 
-  console.log(stuData);
-
   return stuData == null
     ? res.send({ message: "Student not found!", status: 404 })
     : res.send({ message: "ok", status: 200, stuData });
@@ -107,11 +105,22 @@ app.post("/find", async function (req, res) {
 app.get("/getstu", async function (req, res) {
   const stuData = await stuColl.find();
 
-  console.log("stuData is: ", stuData);
-
   return stuData == null
     ? res.send({ message: "Student not found!", status: 404 })
     : res.send({ message: "ok", status: 200, stuData });
+});
+
+app.post("/del", async function (req, res) {
+  var name = req.body.name;
+  var fname = req.body.fname;
+
+  const result = await stuColl.deleteOne({ name, fname });
+
+  console.log("result is: ", result);
+
+  return result.deletedCount == 0
+    ? res.send({ message: "Student not found!", status: 404 })
+    : res.send({ message: "ok", status: 200 });
 });
 
 // app.get("/signUp", function (req, res) {
