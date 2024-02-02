@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 
-const card = () => {
+const Card = (props : any) => {
+  const imgLink1= "../assets/images/maleAvatar.svg"
+  const imgLink2= "../assets/images/femaleAvatar.svg"
+
   const [STAtus, setStatus] = useState("");
-  const [Sname, setSname] = useState("");
-  const [Fname, setFname] = useState("");
-  const [PHone, setPhone] = useState("");
-  const [CIty, setCity] = useState("");
-  const [GEnder, setGender] = useState("");
 
   return (
     <main className="page login-page">
@@ -22,17 +20,16 @@ const card = () => {
             )}
 
             <h2 className="text-info">Student Detail</h2>
-            <img src="images/<%=AVAtar%>.svg" style={{ height: "220px" }} />
+            <img src={props.stuData.gender == 0 ? imgLink2 : imgLink1} style={{ height: "220px" }} />
           </div>
 
-          {/* In forms, name field is very Important, because it is used in 'req.body.' while connection to database */}
           <form action="/updateStudentDetails" method="post">
             <div className="mb-3">
               <label className="form-label" htmlFor="email">
                 <b>Name: </b>
               </label>
               <label className="form-label" htmlFor="email">
-                {Sname}
+                {props.stuData.name}
               </label>
             </div>
 
@@ -41,7 +38,7 @@ const card = () => {
                 <b>Father's Name: </b>
               </label>
               <label className="form-label" htmlFor="email">
-                {Fname}
+                {props.stuData.fname}
               </label>
             </div>
 
@@ -50,7 +47,7 @@ const card = () => {
                 <b>Phone: </b>
               </label>
               <label className="form-label" htmlFor="email">
-                {PHone}
+                {props.stuData.phone}
               </label>
             </div>
 
@@ -59,7 +56,7 @@ const card = () => {
                 <b>City: </b>
               </label>
               <label className="form-label" htmlFor="email">
-                {CIty}
+                {props.stuData.city}
               </label>
             </div>
 
@@ -68,7 +65,7 @@ const card = () => {
                 <b>Gender: </b>
               </label>
               <label className="form-label" htmlFor="email">
-                {GEnder}
+                {props.stuData.gender == 0 ? "Female" : "Male"}
               </label>
             </div>
 
@@ -82,4 +79,4 @@ const card = () => {
   );
 };
 
-export default card;
+export default Card;

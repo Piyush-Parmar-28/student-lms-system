@@ -1,61 +1,104 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Navbar from "../components/navbar.tsx";
+import Footer from "../components/footer.tsx";
+import Alert from "../components/alert.tsx";
+import StuTableRow from "../components/stuTableRow.tsx";
 
-const list = () => {
-  const [SIze, setSize] = useState("0");
+const List = () => {
+  const img1 = "../assets/images/noInfo.svg";
+  const maleImg = "../assets/images/maleAvatar.svg";
+  const femaleImg = "../assets/images/femaleAvatar.svg";
+
+  const [status, setStatus] = useState(0);
+  const [stuData, setStuData] = useState<any[]>([]);
+
+  useEffect(() => {
+    const getRes = async () => {
+      const res = await fetch("/getstu", {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+      const studentData= data.stuData;
+      console.log("data is: ", studentData);
+
+      setStatus(data.status);
+      setStuData( studentData );
+    };
+
+    getRes();
+  }, []);
 
   return (
-    <body className="bg-light">
-      {/* position-relative & min-vh-100 was necessary to give, since when no. of students were less, then footer was sticking up. */}
-      <div id="main" className="page position-relative min-vh-100">
-        <div id="wrapper" className="container">
-          <div className="d-flex flex-column" id="content-wrapper">
-            <div id="content">
-              <div className="container-fluid ">
-                {SIze == "0" ? (
-                  <div>
-                    <div
-                      className="alert alert-warning my-5 d-flex justify-content-center"
-                      role="alert"
-                    >
-                      No Student Information Available!
-                    </div>
+    <div>
+      <Navbar></Navbar>
 
-                    <div className="text-center mb-4">
-                      <img
-                        src="images/noInfo.svg"
-                        className="mx-auto"
-                        style={{ height: "350px" }}
+      <body className="bg-light mt-5">
+        <div id="main" className="page position-relative min-vh-100">
+          <div id="wrapper" className="container">
+            <div className="d-flex flex-column" id="content-wrapper">
+              <div id="content">
+                <div className="container-fluid ">
+                  {status == 404 ? (
+                    <div>
+                      <Alert
+                        color="warning"
+                        msg="No Student Information Available!"
                       />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="card shadow mb-4 mt-5">
-                    <div className="card-header py-3">
-                      <p className="text-primary m-0 fw-bold d-flex justify-content-center">
-                        Student's List
-                      </p>
-                    </div>
-                    <div className="card-body">
-                      <div
-                        className="table-responsive table mt-2 "
-                        id="dataTable"
-                        role="grid"
-                        aria-describedby="dataTable_info"
-                      >
-                        <table className="table my-0" id="dataTable2">
-                          <thead>
-                            <tr>
-                              <th>Photo</th>
-                              <th>Name</th>
-                              <th>Father's Name</th>
-                              <th>Phone</th>
-                              <th>Gender</th>
-                              <th>City</th>
-                            </tr>
-                          </thead>
 
-                          <tbody>
-                            {/* <tr>
+                      <div className="text-center mb-4">
+                        <img
+                          src={img1}
+                          className="mx-auto"
+                          style={{ height: "350px" }}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="card shadow mb-4 mt-5">
+                      <div className="card-header py-3">
+                        <p className="text-primary m-0 fw-bold d-flex justify-content-center">
+                          Student's List
+                        </p>
+                      </div>
+                      <div className="card-body">
+                        <div
+                          className="table-responsive table mt-2 "
+                          id="dataTable"
+                          role="grid"
+                          aria-describedby="dataTable_info"
+                        >
+                          <table className="table my-0" id="dataTable2">
+                            <thead>
+                              <tr>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Father's Name</th>
+                                <th>Phone</th>
+                                <th>Gender</th>
+                                <th>City</th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              {
+                                stuData.map( (content) => {
+                                  return (
+                                    <StuTableRow 
+                                      name= {content.name}
+                                      fname= {content.fname}
+                                      phone= {content.phone}
+                                      city= {content.city}
+                                      gender= {content.gender == 0 ? "Female" : "Male"}
+                                      imgLink= {content.gender == 0 ? femaleImg: maleImg}
+                                    /> 
+                                  )
+                                } )
+                              }
+                              {/* <tr>
                                 <td><img className="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/avatar4.jpeg"></td>
                                 <td>Software Engineer</td>
                                 <td>London</td>
@@ -63,23 +106,26 @@ const list = () => {
                                 <td>2012/10/13<br></td>
                                 <td>$132,000</td>
                             </tr> */}
-                          </tbody>
+                            </tbody>
 
-                          <tfoot>
-                            <tr></tr>
-                          </tfoot>
-                        </table>
+                            <tfoot>
+                              <tr></tr>
+                            </tfoot>
+                          </table>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </body>
+      </body>
+
+      <Footer></Footer>
+    </div>
   );
 };
 
-export default list;
+export default List;

@@ -92,6 +92,28 @@ app.post("/add", async (req, res) => {
     });
 });
 
+app.post("/find", async function (req, res) {
+  var name = req.body.user;
+
+  const stuData = await stuColl.findOne({ name });
+
+  console.log(stuData);
+
+  return stuData == null
+    ? res.send({ message: "Student not found!", status: 404 })
+    : res.send({ message: "ok", status: 200, stuData });
+});
+
+app.get("/getstu", async function (req, res) {
+  const stuData = await stuColl.find();
+
+  console.log("stuData is: ", stuData);
+
+  return stuData == null
+    ? res.send({ message: "Student not found!", status: 404 })
+    : res.send({ message: "ok", status: 200, stuData });
+});
+
 // app.get("/signUp", function (req, res) {
 //   res.sendFile(path.join(__dirname, "public/signUp.html"));
 // });
