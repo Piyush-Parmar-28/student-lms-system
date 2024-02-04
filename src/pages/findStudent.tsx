@@ -1,14 +1,19 @@
 import React, { useState, Fragment } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar.tsx";
 import Footer from "../components/footer.tsx";
 import Alert from "../components/alert.tsx";
-import StuCard from "./studentDetailCard.tsx";
 
 const FindStudent = () => {
+  const navigate = useNavigate();
+
+  const handleRedirect = (stuData : any) => {
+    navigate("/detail", { state: { stuData } });
+  };
+
   const imgLink = "../assets/images/addStudent.svg";
   const [user, setUser] = useState("");
   const [status, setStatus] = useState(0);
-  const [stuData, setStuData] = useState({});
 
   const handleInput = (event: any) => {
     setUser(event.target.value);
@@ -29,7 +34,10 @@ const FindStudent = () => {
 
     const data = await res.json();
     setStatus(data.status);
-    setStuData({...stuData, ...data.stuData})
+    
+    if (data.status == 200) {
+      handleRedirect(data.stuData);
+    }
   };
 
   return (
@@ -39,52 +47,41 @@ const FindStudent = () => {
       <main className="page login-page">
         <section className="clean-block clean-form dark">
           <div className="container">
-            {status == 200 ? (
-              <StuCard 
-                stuData= {stuData}
-              />
+            {status == 404 ? (
+              <Alert color="danger" msg="No Such Student Found. Try Again!" />
             ) : (
-              <div>
-                {status == 404 ? (
-                  <Alert
-                    color="danger"
-                    msg="No Such Student Found. Try Again!"
-                  />
-                ) : (
-                  <Fragment></Fragment>
-                )}
-
-                <div className="block-heading">
-                  <h2 className="text-info">Find Student</h2>
-                  <img src={imgLink} style={{ height: "220px" }} />
-                </div>
-
-                <form>
-                  <div className="mb-3">
-                    <label className="form-label" htmlFor="email">
-                      <b>Name</b>
-                    </label>
-                    <input
-                      className="form-control item"
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={user}
-                      onChange={handleInput}
-                      required
-                    />
-                  </div>
-
-                  <button
-                    className="btn btn-primary"
-                    type="submit"
-                    onClick={postData}
-                  >
-                    Find Student
-                  </button>
-                </form>
-              </div>
+              <Fragment></Fragment>
             )}
+
+            <div className="block-heading">
+              <h2 className="text-info">Find Student</h2>
+              <img src={imgLink} style={{ height: "220px" }} />
+            </div>
+
+            <form>
+              <div className="mb-3">
+                <label className="form-label" htmlFor="email">
+                  <b>Name</b>
+                </label>
+                <input
+                  className="form-control item"
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={user}
+                  onChange={handleInput}
+                  required
+                />
+              </div>
+
+              <button
+                className="btn btn-primary"
+                type="submit"
+                onClick={postData}
+              >
+                Find Student
+              </button>
+            </form>
           </div>
         </section>
       </main>

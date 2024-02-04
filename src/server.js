@@ -93,9 +93,9 @@ app.post("/add", async (req, res) => {
 });
 
 app.post("/find", async function (req, res) {
-  var name = req.body.user;
+  var myName = req.body.user;
 
-  const stuData = await stuColl.findOne({ name });
+  const stuData = await stuColl.findOne({ name: { $regex: `^${myName}$`, $options: 'i' } });
 
   return stuData == null
     ? res.send({ message: "Student not found!", status: 404 })
@@ -114,293 +114,29 @@ app.post("/del", async function (req, res) {
   var name = req.body.name;
   var fname = req.body.fname;
 
-  const result = await stuColl.deleteOne({ name, fname });
-
-  console.log("result is: ", result);
+  //  Doing case-insensitive query
+  const result = await stuColl.deleteOne({ name: { $regex: `^${name}$`, $options: 'i' }, fname: { $regex: `^${fname}$`, $options: 'i' } });
 
   return result.deletedCount == 0
     ? res.send({ message: "Student not found!", status: 404 })
     : res.send({ message: "ok", status: 200 });
 });
 
-// app.get("/signUp", function (req, res) {
-//   res.sendFile(path.join(__dirname, "public/signUp.html"));
-// });
+app.post("/update", async function (req, res) {
+  var id = req.body.id;
+  var name = req.body.name;
+  var fname = req.body.fname;
+  var city = req.body.city;
+  var phone = req.body.phone;
+  var gender = req.body.gender;
 
-// app.get("/contactUs", function (req, res) {
-//   res.sendFile(path.join(__dirname, "public/contactUs.html"));
-// });
+  const result = await stuColl.findByIdAndUpdate(id, { name, fname, city, phone, gender });
 
-// app.get("/addStudent", function (req, res) {
-//   res.render("addStudent.ejs", {
-//     ADDed: "No",
-//   });
-// });
-
-// app.get("/findStudent", function (req, res) {
-//   res.render("findStudent.ejs", {
-//     /* Initially, when no form has been submitted, then let us set variable FOund to be "Yes" in our ejs file */
-//     FOund: "Yes",
-//   });
-// });
-
-// app.get("/studentList", function (req, res) {
-//   db.collection("Students")
-//     .find()
-//     .toArray(function (err, result) {
-//       if (err) {
-//         throw err;
-//       } else {
-//         /* console.log(result)
-//             console.log(result.length) */
-
-//         return res.render("studentList.ejs", {
-//           SIze: result.length,
-//           REsult: result,
-//         });
-//       }
-//     });
-// });
-
-// app.get("/deleteStudent", function (req, res) {
-//   res.render("deleteStudent.ejs", {
-//     DEleted: "No",
-//   });
-// });
-
-// app.get("/mailSent", function (req, res) {
-//   return res.sendFile(path.join(__dirname, "public/mailSent.html"));
-// });
-
-// /* post Methods */
-
-// /* If we do not use this, then body property will be undefined. */
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: true,
-//   })
-// );
-
-// app.post("/addStudent", function (req, res) {
-//   var name = req.body.Name;
-//   var fname = req.body.Fname;
-//   var phone = req.body.Number;
-//   var gender = req.body.Gender;
-//   var city = req.body.City;
-
-//   console.log(name);
-
-//   var data = {
-//     name: name,
-//     fname: fname,
-//     phone: phone,
-//     gender: gender,
-//     city: city,
-//   };
-
-// db.collection("Students").insertOne(data, function (err, collection) {
-//   if (err) {
-//     throw err;
-//   } else {
-//     console.log("Student Added Successfully!");
-
-//     return res.render("addStudent.ejs", {
-//       ADDed: "Yes",
-//     });
-//   }
-// });
-// });
-
-// OLDNAME = "";
-// OLDFNAME = "";
-
-// app.post("/findStudent", function (req, res) {
-//   var name = req.body.Name.toLowerCase();
-
-//   console.log("Name is:" + name);
-
-//   /* After creation of index in MongoDB, this method of search will be is for case-insensitive search. */
-//   db.collection("Students")
-//     .find()
-//     .toArray(function (err, result) {
-//       if (err) {
-//         throw err;
-//       }
-
-//       console.log("result array is: ");
-//       console.log(result);
-
-//       var data = result.find((obj) => {
-//         console.log("object is: ");
-//         console.log(obj);
-//         if (obj.name.toLowerCase() === name) {
-//           return obj;
-//         }
-//       });
-//       console.log("Filterd data: ");
-//       console.log(data);
-
-//       if (data === null) {
-//         console.log("No Such Student Exists!");
-
-//         return res.render("findStudent.ejs", {
-//           FOund: "No",
-//         });
-//       } else {
-//         let NAME = data.name;
-//         let FNAME = data.fname;
-//         let PHONE = data.phone;
-//         let GENDER = data.gender;
-//         let CITY = data.city;
-
-//         OLDNAME = NAME;
-//         OLDFNAME = FNAME;
-
-//         let AVATAR = "maleAvatar";
-
-//         if (GENDER == "Female") {
-//           AVATAR = "femaleAvatar";
-//         }
-
-//         // While using ejs file, we have to use 'res.render' instead of using 'res.sendFile'
-//         res.render("studentDetailCard.ejs", {
-//           STAtus: "Not Updated",
-//           Sname: NAME,
-//           Fname: FNAME,
-//           PHone: PHONE,
-//           GEnder: GENDER,
-//           CIty: CITY,
-
-//           AVAtar: AVATAR,
-//         });
-//       }
-//     });
-// });
-
-// app.post("/deleteSTUDENT", function (req, res) {
-//   var name = req.body.Name;
-//   var fname = req.body.Fname;
-
-//   console.log(name);
-
-//   db.collection("Students")
-//     .find({ name: name, fname: fname })
-//     .toArray(function (err, result) {
-//       if (err) {
-//         throw err;
-//       } else {
-//         console.log(result);
-//       }
-
-//       if (result.length == 0) {
-//         console.log("No Such Student Exists!");
-
-//         return res.render("deleteStudent.ejs", {
-//           DEleted: "No Data",
-//         });
-//       } else {
-//         db.collection("Students").deleteOne({ name: name, fname: fname });
-//         console.log("Student Deleted Successfully!");
-
-//         return res.render("deleteStudent.ejs", {
-//           DEleted: "Yes",
-//         });
-//       }
-//     });
-// });
-
-// app.post("/updateStudentDetails", function (req, res) {
-//   var name = OLDNAME;
-//   var fname = OLDFNAME;
-
-//   console.log(name);
-//   console.log(fname);
-
-//   db.collection("Students")
-//     .find({ name: name, fname: fname })
-//     .toArray(function (err, result) {
-//       if (err) {
-//         throw err;
-//       } else {
-//         /* console.log(result) */
-
-//         let NAME = result[0].name;
-//         let FNAME = result[0].fname;
-//         let PHONE = result[0].phone;
-//         let GENDER = result[0].gender;
-//         let CITY = result[0].city;
-
-//         let AVATAR = "maleAvatar";
-
-//         if (GENDER == "Female") {
-//           AVATAR = "femaleAvatar";
-//         }
-
-//         /* console.log(GENDER) */
-//         /* console.log(OLDNAME) */
-
-//         return res.render("addNewDetails.ejs", {
-//           NAme: NAME,
-//           Fname: FNAME,
-//           PHOne: PHONE,
-//           GEnder: GENDER,
-//           CIty: CITY,
-//         });
-//       }
-//     });
-// });
-
-// app.post("/addNewDetails", function (req, res) {
-//   var oldName = OLDNAME;
-//   var oldFname = OLDFNAME;
-
-//   var name = req.body.Name;
-//   var fname = req.body.Fname;
-//   var phone = req.body.Number;
-//   var gender = req.body.Gender;
-//   var city = req.body.City;
-
-//   db.collection("Students").updateOne(
-//     { name: oldName, fname: oldFname },
-//     {
-//       $set: {
-//         name: name,
-//         fname: fname,
-//         phone: phone,
-//         gender: gender,
-//         city: city,
-//       },
-//     }
-//   );
-
-//   let avatar = "maleAvatar";
-
-//   if (gender == "Female") {
-//     avatar = "femaleAvatar";
-//   }
-
-//   return res.render("studentDetailCard.ejs", {
-//     STAtus: "Updated",
-//     AVAtar: avatar,
-//     Sname: name,
-//     Fname: fname,
-//     GEnder: gender,
-//     PHone: phone,
-//     CIty: city,
-//   });
-// });
-
-// /* get method */
-// app.get("/", function (req, res) {
-//   // res.render('index.ejs', {
-//   //     ACCess: allowAccess
-//   // })
-// });
+  return result == null
+    ? res.send({ message: "Update Unsuccessuful. Try Again!", status: 400 })
+    : res.send({ message: "ok", status: 200 });
+});
 
 app.listen(port, () => {
   console.log(`Server Listening on Port: ${port}`);
 });
-
-// process.on("unhandledRejection", (err) => {
-//   console.log("unhandled error is -----> " + err);
-// });
