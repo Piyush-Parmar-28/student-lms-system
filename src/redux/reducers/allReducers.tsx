@@ -1,9 +1,9 @@
 //  Combining all the reducers here
 import { combineReducers } from "redux";
-import manage from "./manageAuthorization.tsx";
+import manageAuth from "./manageAuthorization.tsx";
 
 const allReducers= combineReducers ({
-    manage
+    manageAuth
 
     //  It stores reducers in key-value pair
     //  eg: myManager: manager

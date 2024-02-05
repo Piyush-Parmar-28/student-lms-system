@@ -4,14 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 import Navbar from "../components/navbar.tsx";
 import Footer from "../components/footer.tsx";
 import Alert from "../components/alert.tsx";
-import { doAuthorize } from "../redux/actions/index.tsx";
+import { doAuthorize } from "../redux/actions/allActions.tsx";
 
 const Login = () => {
   //  useDispatch is used to trigger the store action
   const dispatch= useDispatch();
   
-  const myState= useSelector( (state: any) => state.manage )
-  console.log("myState new is : "+ myState);
+  const myState= useSelector( (state: any) => state.manageAuth )
+  // console.log("myState in login is : ", myState);
 
   const [loginInfo, setLoginInfo] = useState({
     email: "",
@@ -44,11 +44,14 @@ const Login = () => {
       }),
     });
 
+    
     const data = await res.json();
+    // console.log("login data: ", data);
+
     setStatus(data.status);
 
     if(data.status == 200){
-      dispatch(doAuthorize());
+      dispatch(doAuthorize(data.user));
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "./App.css";
@@ -16,8 +16,9 @@ import LoginFirst from "./pages/loginFirst.tsx";
 import { useSelector } from "react-redux";
 
 function App() {
-  const authorized = useSelector((state: any) => state.manage);
-  console.log("myState is : " + authorized);
+  //  Get state (item) from redux store using useSelector
+  //  The below code means: from all the available states in the store, get the state from manage
+  const myState = useSelector((state: any) => state.manageAuth);
 
   return (
     <BrowserRouter>
@@ -26,7 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signUp" element={<Signup />} />
 
-        {authorized ? (
+        {myState.authorized ? (
           <>
             <Route path="/contactUs" element={<ContactUS />} />
             <Route path="/find" element={<FindStudent />} />

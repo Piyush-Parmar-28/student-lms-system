@@ -33,7 +33,7 @@ const DeleteStu = () => {
     });
 
     const data = await res.json();
-    console.log("data: ", data);
+    // console.log("data: ", data);
     
     setStatus(data.status);
   };

@@ -42,7 +42,7 @@ app.post("/login", async function (req, res) {
 
   return user == null
     ? res.send({ message: "User not found!", status: 404 })
-    : res.send({ message: "ok", status: 200 });
+    : res.send({ message: "ok", status: 200, user: user });
 });
 
 app.post("/signup", function (req, res) {

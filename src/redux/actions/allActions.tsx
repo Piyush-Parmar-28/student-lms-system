@@ -4,9 +4,10 @@ const isAuthorized= () => {
     }
 }
 
-const doAuthorize= () => {
+const doAuthorize= (user: any) => {
     return {
-        type: "authorize"
+        type: "authorize",
+        myUser: user
     }
 }
 

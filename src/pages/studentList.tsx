@@ -23,7 +23,7 @@ const List = () => {
 
       const data = await res.json();
       const studentData= data.stuData;
-      console.log("data is: ", studentData);
+      // console.log("data is: ", studentData);
 
       setStatus(data.status);
       setStuData( studentData );

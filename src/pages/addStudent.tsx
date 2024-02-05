@@ -21,7 +21,7 @@ const AddStu = () => {
 
   const postData = async (event: any) => {
     event.preventDefault();
-    console.log(stuInfo);
+    // console.log(stuInfo);
 
     const { name, fname, city, phone, gender } = stuInfo;
 

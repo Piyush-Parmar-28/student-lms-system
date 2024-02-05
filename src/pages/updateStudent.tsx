@@ -8,7 +8,7 @@ const UpdateStu = () => {
   const location = useLocation();
   const data = location.state;
 
-  console.log("update data: ", data);
+  // console.log("update data: ", data);
 
   const img0 = "../assets/images/femaleAvatar.svg";
   const img1 = "../assets/images/maleAvatar.svg";

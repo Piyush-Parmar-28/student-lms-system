@@ -1,23 +1,33 @@
-const initialState = false;
+const initialState = {
+  authorized: false,
+  name: "",
+  email: "",
+  phone: "",
+};
 
-const manage = (state = initialState, action) => {
+const manageAuth = (state = initialState, action: any) => {
   switch (action.type) {
     case "check":
       return state;
       break;
 
     case "authorize":
-      return true;
+      state.authorized = true;
+      state.name = action.myUser.name;
+      state.phone = action.myUser.phone;
+      state.email = action.myUser.email;
+
+      return state;
       break;
 
     case "unAuthorize":
-      return false;
+      state.authorized = false;
+      return state;
       break;
 
-    default: return state
-
-      break;
+    default:
+      return state;
   }
 };
 
-export default manage
+export default manageAuth;
