@@ -7,6 +7,7 @@ import MenuCard from "../components/menuCard.tsx";
 import Heading from "../components/heading.tsx";
 import FeatureCard from "../components/featureCard.tsx";
 import Modal from "../components/modal.tsx";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const [access, setAccess] = useState("Yes");
@@ -16,6 +17,9 @@ const Home = () => {
   const img3 = "../assets/images/findStudent.svg";
   const img4 = "../assets/images/updateStudent.svg";
   const bg = `url(${img1})`;
+
+  const myState = useSelector((state: any) => state.manageAuth);
+  console.log("myState2: ", myState);
 
   return (
     <div>

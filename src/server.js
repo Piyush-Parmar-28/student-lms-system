@@ -6,6 +6,9 @@ const path = require("path");
 const port = process.env.PORT || 8000;
 var cors = require("cors");
 
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+
 //  Using Mongoose Models
 const userColl = require("./Schema/userSchema");
 const stuColl = require("./Schema/studentSchema");
@@ -38,39 +41,43 @@ app.post("/login", async function (req, res) {
   var email = req.body.email;
   var pass = req.body.pass;
 
-  const user = await userColl.findOne({ email, pass });
+  const user = await userColl.findOne({ email });
 
-  return user == null
-    ? res.send({ message: "User not found!", status: 404 })
-    : res.send({ message: "ok", status: 200, user: user });
+  if (user) {
+    
+    return bcrypt.compare(pass, user.pass, function(err, result) {
+     if(result){
+        return res.send({ message: "ok", status: 200, user: user });
+      }
+    });
+
+  }
+
+  return res.send({ message: "User not found!", status: 404 });
 });
 
 app.post("/signup", function (req, res) {
   var data = new userColl({
     name: req.body.name,
     email: req.body.email,
-    pass: req.body.pass,
+    pass: "",
     phone: req.body.phone,
   });
 
-  //  OLD CODE (without mongoose)
-  // db.collection("users").insertOne(data, function (err, collection) {
-  //   if (err) {
-  //     throw err;
-  //   } else {
-  //     res.send({ status: 200, message: "Record Inserted Successfully!" });
-  //   }
-  // });
+  //  This function will return the hash after performing bcrypt hashing for the mentioned number of salt rounds.
+  bcrypt.hash(req.body.pass, saltRounds, function (err, hash) {
+    data.pass= hash;
 
-  //  NEW CODE (using mongoose)
-  data
-    .save()
-    .then(() => {
-      res.send({ status: 200, message: "Record Inserted Successfully!" });
-    })
-    .catch((e) => {
-      res.send(e);
-    });
+    data
+      .save()
+      .then(() => {
+        res.send({ status: 200, message: "Record Inserted Successfully!" });
+      })
+      .catch((e) => {
+        res.send(e);
+      });
+
+  });
 });
 
 app.post("/add", async (req, res) => {
@@ -95,7 +102,9 @@ app.post("/add", async (req, res) => {
 app.post("/find", async function (req, res) {
   var myName = req.body.user;
 
-  const stuData = await stuColl.findOne({ name: { $regex: `^${myName}$`, $options: 'i' } });
+  const stuData = await stuColl.findOne({
+    name: { $regex: `^${myName}$`, $options: "i" },
+  });
 
   return stuData == null
     ? res.send({ message: "Student not found!", status: 404 })
@@ -115,7 +124,10 @@ app.post("/del", async function (req, res) {
   var fname = req.body.fname;
 
   //  Doing case-insensitive query
-  const result = await stuColl.deleteOne({ name: { $regex: `^${name}$`, $options: 'i' }, fname: { $regex: `^${fname}$`, $options: 'i' } });
+  const result = await stuColl.deleteOne({
+    name: { $regex: `^${name}$`, $options: "i" },
+    fname: { $regex: `^${fname}$`, $options: "i" },
+  });
 
   return result.deletedCount == 0
     ? res.send({ message: "Student not found!", status: 404 })
@@ -130,7 +142,13 @@ app.post("/update", async function (req, res) {
   var phone = req.body.phone;
   var gender = req.body.gender;
 
-  const result = await stuColl.findByIdAndUpdate(id, { name, fname, city, phone, gender });
+  const result = await stuColl.findByIdAndUpdate(id, {
+    name,
+    fname,
+    city,
+    phone,
+    gender,
+  });
 
   return result == null
     ? res.send({ message: "Update Unsuccessuful. Try Again!", status: 400 })
