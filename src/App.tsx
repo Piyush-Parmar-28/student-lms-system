@@ -16,19 +16,6 @@ import { useSelector } from "react-redux";
 import ProtectedRoute from "./components/protectedRoute.tsx";
 
 function App() {
-  // const ProtectedRoute = ({ element: Component, ...rest }) => {
-  //   // Get authentication state from Redux store
-  //   const isAuthorized = useSelector((state: any) => state.manageAuth.authorized);
-
-  //   // If user is authenticated, render the component, else redirect to login
-  //   return isAuthorized ? <Route {...rest} element={<Component />} /> : <Navigate to="/login" replace />;
-  // };
-
-  //  Get state (item) from redux store using useSelector
-  //  The below code means: from all the available states in the store, get the state from manage
-  const myState = useSelector((state: any) => state.manageAuth);
-  console.log("myState: ", myState);
-
   return (
     <BrowserRouter>
       <Routes>
