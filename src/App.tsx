@@ -12,7 +12,6 @@ import StuList from "./pages/studentList.tsx";
 import DeleteStu from "./pages/deleteStudent.tsx";
 import StuCard from "./pages/studentDetailCard.tsx";
 import UpdateStu from "./pages/updateStudent.tsx";
-import LoginFirst from "./pages/loginFirst.tsx";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./components/protectedRoute.tsx";
 
